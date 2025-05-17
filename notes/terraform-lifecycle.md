@@ -44,6 +44,35 @@ location="eastus"
 
 If you change the name = "uday" to name = "alwala", it will create alwala resource and it will delete uday resoucre this will minimize downtime/zero
 
+
+prevent destroy
+================
+
+main.tf
+```
+provider "azurerm" {
+    features {
+
+    }
+
+}
+resource "azurerm_resource_group" "examplerg" {
+  name     = "udayrg"
+  location = var.location
+}
+resource "azurerm_public_ip" "publicip" {
+  name = "uday"
+  resource_group_name = azurerm_resource_group.examplerg.name
+  location = var.location
+  allocation_method = "Static"
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+```
+
+if someone tries to delete the resources by running terraform destory it will throws and error that resource cant be destroyed
+
 Ignore changes:
 ===============
 ```
