@@ -17,11 +17,12 @@ locals {
   }
 }
 ```
+```
 resource "azurerm_resource_group" "rg" {
   name     = "day10-rg"
   location = "westus2"
 }
-
+```
 main.tf
 
 ```
