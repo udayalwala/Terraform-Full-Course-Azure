@@ -15,7 +15,7 @@ resource "azurerm_resource_group" "examplerg" {
   location = var.location
 }
 resource "azurerm_public_ip" "publicip" {
-  name = "public-ip-example"
+  name = "uday"
   resource_group_name = azurerm_resource_group.examplerg.name
   location = var.location
   allocation_method = "Static"
@@ -39,4 +39,4 @@ terraform.tfvars
 location="eastus"
 ```
 
-If you change the name = "public-ip-example" to name = "public-ip-example1", it will create public-ip-example1 and delete public-ip-example this will minimize downtime/zero
+If you change the name = "uday" to name = "alwala", it will create alwala resource and it will delete uday resoucre this will minimize downtime/zero
