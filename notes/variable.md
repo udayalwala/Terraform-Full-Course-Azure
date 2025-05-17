@@ -268,3 +268,50 @@ Copy
 Edit
 var.vm_names[0]  # "web-vm-1"
 var.vm_names[1]  # "web-vm-2"
+
+✅ What is a Set in Terraform?
+In Terraform, a set is a collection similar to a list, but with two key differences:
+
+No duplicates allowed
+
+Unordered — the order of elements is not guaranteed
+
+It’s useful when the order doesn’t matter and you want to ensure uniqueness.
+
+📌 Syntax
+
+```
+variable "tags_set" {
+  type        = set(string)
+  description = "Set of tags to apply as keys"
+}
+```
+📘 Example: Using a Set for Azure Resource Tags
+
+variables.tf
+```
+variable "tags_set" {
+  type        = set(string)
+  description = "Set of tag keys to assign"
+}
+```
+
+terraform.tfvars
+
+```
+tags_set = ["env", "owner", "department"]
+```
+main.tf
+
+```
+resource "azurerm_resource_group" "example" {
+  name     = "example-rg"
+  location = "East US"
+
+  # Convert set into a map (with dummy values)
+  tags = {
+    for tag in var.tags_set :
+    tag => "true"
+  }
+}
+```
