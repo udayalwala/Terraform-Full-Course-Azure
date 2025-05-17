@@ -108,3 +108,50 @@ resource "azurerm_network_interface" "example" {
     private_ip_address_allocation = "Dynamic"
   }
 }
+
+ 
+🧠 Key Points
+Type: number allows only numeric input (no quotes).
+
+Usage: Great for count, size, or configuration parameters.
+
+Access: Use var.vm_count in your configuration.
+
+🔍 What is:
+
+```
+name = "example-nic-${count.index}"
+```
+This line uses Terraform interpolation syntax to dynamically name resources when using the count meta-argument.
+
+example-nic-: This is a fixed string prefix for the name.
+
+${count.index}: This is a built-in variable that gives the current index of the resource in the loop (starting from 0).
+
+"example-nic-${count.index}": This results in names like:
+
+example-nic-0
+
+example-nic-1
+
+example-nic-2
+
+... depending on count
+
+```
+resource "azurerm_network_interface" "example" {
+  count = 3
+  name  = "example-nic-${count.index}"
+  # ...
+}
+```
+
+Terraform will create 3 NICs with these names:
+
+example-nic-0
+
+example-nic-1
+
+example-nic-2
+
+"example-nic-${count.index}" is a way to dynamically generate unique names in a loop when using count in a Terraform resource block. It's especially useful when creating multiple similar resources
