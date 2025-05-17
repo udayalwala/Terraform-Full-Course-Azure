@@ -212,3 +212,59 @@ resource "azurerm_virtual_machine" "example" {
   # ... other required VM config ...
 }
 ```
+
+✅ What is a List Variable in Terraform?
+In Terraform, a list variable holds an ordered collection of values, all of the same type — typically strings, numbers, or bools.
+
+Think of it like an array in other languages.
+
+📌 Syntax
+
+```
+variable "vm_names" {
+  type        = list(string)
+  description = "List of virtual machine names"
+}
+```
+
+🧾 Example: Create Multiple VMs from a List of Names
+
+variables.tf
+
+```
+variable "vm_names" {
+  type        = list(string)
+  description = "List of VM names to create"
+}
+```
+terraform.tfvars
+
+```
+vm_names = ["web-vm-1", "web-vm-2", "web-vm-3"]
+```
+main.tf
+
+```
+resource "azurerm_virtual_machine" "example" {
+  count               = length(var.vm_names)
+  name                = var.vm_names[count.index]
+  location            = "East US"
+  resource_group_name = "example-rg"
+  network_interface_ids = []
+  vm_size             = "Standard_B1s"
+
+  # ...other required VM configuration...
+}
+```
+🧠 Key Notes
+list(string) means a list of strings (["one", "two"])
+
+Use count and count.index to loop over lists
+
+You can also access values directly:
+
+hcl
+Copy
+Edit
+var.vm_names[0]  # "web-vm-1"
+var.vm_names[1]  # "web-vm-2"
