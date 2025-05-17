@@ -363,3 +363,127 @@ Access pattern	var.tags["owner"]
 Duplicate keys	❌ Not allowed
 Order	Unordered (like a hash)
 Use cases	Tags, settings, configs
+
+✅ What is an Object in Terraform?
+An object in Terraform is a complex data type that allows you to define a structured group of named attributes, each with its own type.
+
+Think of it like a custom struct or schema with named fields — it's more structured than a map and ideal for nested or related values.
+
+📦 Object vs Map
+Feature	Object	Map
+Schema	Strict (must match types)	Flexible (all values same type)
+Access	var.resource.name	var.resource["name"]
+Use case	Structured data like configs	Key-value tags or settings
+
+📌 Syntax
+
+```
+variable "vm_config" {
+  type = object({
+    name     = string
+    size     = string
+    location = string
+  })
+  description = "Configuration for an Azure VM"
+}
+```
+📘 Example: Using an Object for VM Configuration
+
+variables.tf
+
+```
+variable "vm_config" {
+  type = object({
+    name     = string
+    size     = string
+    location = string
+  })
+  description = "Configuration for the virtual machine"
+}
+```
+terraform.tfvars
+
+```
+vm_config = {
+  name     = "vm-01"
+  size     = "Standard_B1s"
+  location = "East US"
+}
+```
+main.tf
+
+```
+resource "azurerm_virtual_machine" "example" {
+  name                  = var.vm_config.name
+  location              = var.vm_config.location
+  resource_group_name   = "example-rg"
+  network_interface_ids = []
+  vm_size               = var.vm_config.size
+
+  # other VM config
+}
+```
+🧠 When to Use Objects
+Use an object when:
+
+You have a group of related values
+
+You want strict type enforcement
+
+You want to pass a single variable instead of many separate ones
+
+✅ What is a Tuple in Terraform?
+A tuple in Terraform is an ordered collection of values of mixed types.
+It is like a list, but each item can be of a different type and position matters.
+
+Think of it like a fixed-length, position-based array where each element has a defined type and position.
+
+📦 Tuple vs List
+Feature	Tuple	List
+Length	Fixed (defined)	Variable
+Types	Can be mixed ([string, number])	Same type only
+Access	By index (var.tuple[0])	By index
+Use Case	Known structure with mixed types	Repeating same-type items
+
+📌 Syntax
+```
+variable "my_tuple" {
+  type = tuple([string, number, bool])
+  description = "A tuple with string, number, and boolean"
+}
+```
+📘 Example: Using a Tuple
+
+variables.tf
+```
+variable "vm_tuple" {
+  type = tuple([string, number, bool])
+  description = "Tuple with VM name, size (number of cores), and diagnostics flag"
+}
+```
+terraform.tfvars
+```
+vm_tuple = ["vm-01", 2, true]
+```
+main.tf
+```
+output "vm_name" {
+  value = var.vm_tuple[0]
+}
+
+output "vm_cores" {
+  value = var.vm_tuple[1]
+}
+
+output "enable_diagnostics" {
+  value = var.vm_tuple[2]
+}
+```
+🧠 When to Use a Tuple
+Use a tuple when:
+
+You need mixed data types
+
+You know the exact number and type of elements
+
+You care about position/order of data
