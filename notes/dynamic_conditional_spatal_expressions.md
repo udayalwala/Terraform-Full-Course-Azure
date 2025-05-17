@@ -161,3 +161,37 @@ resource "azurerm_network_security_group" "example" {
   resource_group_name = azurerm_resource_group.examplerg.name
 }
 ```
+
+🔹 what are splat expressions in terraform
+
+The splat expression is used to extract values from complex data structures, particularly when working with lists and maps. It allows you to access specific elements within a list or map and use them in your Terraform configurations.
+
+Extracting List Elements
+
+When you have a list of values, you can use the splat expression to extract specific elements from the list. The syntax is as follows
+
+```
+variable "example_list" {
+  type    = list(string)
+  default = ["value1", "value2", "value3"]
+}
+
+output "selected_value" {
+  value = var.example_list[1] // Accessing the second element using index
+}
+```
+
+Extracting Map Values
+
+Similarly, the splat expression can be used to extract values from a map
+
+```
+variable "example_map" {
+  type    = map(string)
+  default = { key1 = "value1", key2 = "value2", key3 = "value3" }
+}
+
+output "selected_value" {
+  value = var.example_map["key2"] // Accessing the value associated with "key2"
+}
+```
