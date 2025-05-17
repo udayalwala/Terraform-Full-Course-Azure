@@ -1,6 +1,9 @@
 Implicit Dependency
+===================
 
 Terraform automatically understands the order of resource creation based on references between resources. If one resource uses an attribute of another, Terraform creates a dependency graph.
+
+Terraform Example (HCL)
 
 resource "azurerm_resource_group" "rg" {
   name     = "my-rg"
@@ -14,13 +17,13 @@ resource "azurerm_storage_account" "sa" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
+In this example, the storage account implicitly depends on the resource group because it references azurerm_resource_group.rg.name and azurerm_resource_group.rg.location. Terraform detects this reference and ensures the resource group is created before the storage account.
 
-Here, the storage account implicitly depends on the resource group because it uses azurerm_resource_group.rg.name and location. Terraform sees this reference and ensures the resource group is created before the storage account.
+Explicit Dependency
+=======================
+When there is no direct reference between resources, but a specific order is required, Terraform allows you to explicitly define dependencies using the depends_on argument.
 
-explict dependency
-
-You create an Azure Resource Group and a Storage Account.
-You want to log a message only after the Storage Account is created, even though the logging resource does not reference it directly.
+Terraform Example (HCL)
 
 provider "azurerm" {
   features {}
@@ -46,10 +49,11 @@ resource "null_resource" "log_after_storage" {
     command = "echo 'Storage Account is now created.'"
   }
 }
+Here, null_resource.log_after_storage does not use any output from the storage account, so Terraform would not infer a dependency. By using:
 
-
-null_resource.log_after_storage does not use any attribute from the storage account.
+hcl
+Copy
+Edit
 depends_on = [azurerm_storage_account.example]
-
-you tell Terraform explicitly to wait until the storage account is created.
-
+you explicitly tell Terraform to wait until the storage account is created before executing the local-exec provisioner.
+ 
