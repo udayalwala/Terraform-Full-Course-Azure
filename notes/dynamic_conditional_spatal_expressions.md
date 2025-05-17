@@ -162,7 +162,7 @@ resource "azurerm_network_security_group" "example" {
 }
 ```
 
-🔹 what are splat expressions in terraform
+🔹 what are splat expressions in terraform?
 
 The splat expression is used to extract values from complex data structures, particularly when working with lists and maps. It allows you to access specific elements within a list or map and use them in your Terraform configurations.
 
