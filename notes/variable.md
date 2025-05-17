@@ -108,7 +108,7 @@ resource "azurerm_network_interface" "example" {
     private_ip_address_allocation = "Dynamic"
   }
 }
-
+```
  
 🧠 Key Points
 Type: number allows only numeric input (no quotes).
