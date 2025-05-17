@@ -1,3 +1,6 @@
+🔹 What Is Dynamic expressions in Terraform?
+
+🔁 Dynamic blocks are designed to create nested blocks within a resource or other top-level block types. This is particularly helpful when you have a variable number of similar configurations to define. 
 
 
 locals.tf
@@ -122,5 +125,39 @@ You Can Now Easily Add Rules Like:
   direction               = "Inbound"
   access                  = "Allow"
   protocol                = "Tcp"
+}
+```
+
+🔹 What Is a Ternary Expression in Terraform?
+
+A ternary expression is a conditional expression in Terraform that lets you assign a value based on a condition, using this format:
+```
+condition ? true_value : false_value
+```
+
+var.tf
+```
+variable "environment" {
+  type = string
+  description = "Environment name (ex. dev, prod, staging)"
+  default = "dev"
+}
+```
+main.tf
+```
+provider "azurerm" {
+    features {
+
+    }
+
+}
+resource "azurerm_resource_group" "examplerg" {
+  name     = "udayrg1"
+  location = "eastus"
+}
+resource "azurerm_network_security_group" "example" {
+  name                = (var.environment == "dev" ? "dev-nsg" : "stage-nsg")
+  location            = azurerm_resource_group.examplerg.location
+  resource_group_name = azurerm_resource_group.examplerg.name
 }
 ```
