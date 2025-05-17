@@ -315,3 +315,51 @@ resource "azurerm_resource_group" "example" {
   }
 }
 ```
+
+✅ What is a Map in Terraform?
+A map in Terraform is a collection of key-value pairs, similar to a dictionary or object in other languages.
+
+Maps are great for grouping related values together — like tags, settings, or resource properties — in a structured way.
+
+📌 Syntax
+
+```
+variable "tags" {
+  type        = map(string)
+  description = "Map of resource tags"
+}
+```
+📘 Example: Using a Map to Set Tags on an Azure Resource Group
+
+variables.tf
+
+```
+variable "tags" {
+  type        = map(string)
+  description = "Tags to assign to the resource"
+}
+```
+
+terraform.tfvars
+
+```
+tags = {
+  environment = "dev"
+  owner       = "uday"
+  team        = "infrastructure"
+}
+```
+main.tf
+```
+resource "azurerm_resource_group" "example" {
+  name     = "example-rg"
+  location = "East US"
+  tags     = var.tags
+}
+```
+🧠 Key Characteristics
+Feature	Value
+Access pattern	var.tags["owner"]
+Duplicate keys	❌ Not allowed
+Order	Unordered (like a hash)
+Use cases	Tags, settings, configs
