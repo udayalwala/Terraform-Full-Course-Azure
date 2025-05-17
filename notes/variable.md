@@ -155,3 +155,60 @@ example-nic-1
 example-nic-2
 
 "example-nic-${count.index}" is a way to dynamically generate unique names in a loop when using count in a Terraform resource block. It's especially useful when creating multiple similar resources
+
+
+✅ What is a Boolean Variable in Terraform?
+A boolean variable in Terraform is a variable that can hold only two values:
+
+true
+
+false
+
+It is used to toggle features or conditions, such as enabling or disabling a service, resource, or specific configuration.
+
+📌 Syntax
+
+```
+variable "enable_feature" {
+  type        = bool
+  description = "Enable or disable a feature"
+  default     = false
+}
+```
+
+📘 Example: Using a Boolean Variable to Enable Boot Diagnostics in Azure
+
+variables.tf
+
+```
+variable "enable_diagnostics" {
+  type        = bool
+  description = "Enable boot diagnostics for the virtual machine"
+  default     = false
+}
+```
+
+terraform.tfvars
+
+```
+enable_diagnostics = true
+```
+main.tf
+
+```
+resource "azurerm_virtual_machine" "example" {
+  name                  = "example-vm"
+  location              = "East US"
+  resource_group_name   = "example-rg"
+  network_interface_ids = []
+  vm_size               = "Standard_B1s"
+
+  # Example of using a boolean variable
+  boot_diagnostics {
+    enabled     = var.enable_diagnostics
+    storage_uri = "https://example.blob.core.windows.net/"
+  }
+
+  # ... other required VM config ...
+}
+```
