@@ -5,6 +5,8 @@ Terraform automatically understands the order of resource creation based on refe
 
 Terraform Example (HCL)
 
+```
+
 resource "azurerm_resource_group" "rg" {
   name     = "my-rg"
   location = "East US"
@@ -17,6 +19,8 @@ resource "azurerm_storage_account" "sa" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
+
+```
 In this example, the storage account implicitly depends on the resource group because it references azurerm_resource_group.rg.name and azurerm_resource_group.rg.location. Terraform detects this reference and ensures the resource group is created before the storage account.
 
 Explicit Dependency
@@ -25,6 +29,7 @@ When there is no direct reference between resources, but a specific order is req
 
 Terraform Example (HCL)
 
+```
 provider "azurerm" {
   features {}
 }
@@ -49,11 +54,10 @@ resource "null_resource" "log_after_storage" {
     command = "echo 'Storage Account is now created.'"
   }
 }
+```
 Here, null_resource.log_after_storage does not use any output from the storage account, so Terraform would not infer a dependency. By using:
 
-hcl
-Copy
-Edit
+```
 depends_on = [azurerm_storage_account.example]
 you explicitly tell Terraform to wait until the storage account is created before executing the local-exec provisioner.
- 
+ ```
