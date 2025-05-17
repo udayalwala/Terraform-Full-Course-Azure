@@ -158,6 +158,7 @@ example-nic-2
 
 
 ✅ What is a Boolean Variable in Terraform?
+
 A boolean variable in Terraform is a variable that can hold only two values:
 
 true
@@ -214,6 +215,7 @@ resource "azurerm_virtual_machine" "example" {
 ```
 
 ✅ What is a List Variable in Terraform?
+
 In Terraform, a list variable holds an ordered collection of values, all of the same type — typically strings, numbers, or bools.
 
 Think of it like an array in other languages.
@@ -270,6 +272,7 @@ var.vm_names[0]  # "web-vm-1"
 var.vm_names[1]  # "web-vm-2"
 
 ✅ What is a Set in Terraform?
+
 In Terraform, a set is a collection similar to a list, but with two key differences:
 
 No duplicates allowed
@@ -317,6 +320,7 @@ resource "azurerm_resource_group" "example" {
 ```
 
 ✅ What is a Map in Terraform?
+
 A map in Terraform is a collection of key-value pairs, similar to a dictionary or object in other languages.
 
 Maps are great for grouping related values together — like tags, settings, or resource properties — in a structured way.
@@ -365,6 +369,7 @@ Order	Unordered (like a hash)
 Use cases	Tags, settings, configs
 
 ✅ What is an Object in Terraform?
+
 An object in Terraform is a complex data type that allows you to define a structured group of named attributes, each with its own type.
 
 Think of it like a custom struct or schema with named fields — it's more structured than a map and ideal for nested or related values.
@@ -433,6 +438,7 @@ You want strict type enforcement
 You want to pass a single variable instead of many separate ones
 
 ✅ What is a Tuple in Terraform?
+
 A tuple in Terraform is an ordered collection of values of mixed types.
 It is like a list, but each item can be of a different type and position matters.
 
