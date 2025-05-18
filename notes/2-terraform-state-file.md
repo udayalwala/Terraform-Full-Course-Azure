@@ -1,4 +1,4 @@
-✅ Terraform state file
+# ✅Terraform state file
 
 A Terraform state file ( .tfstate extension) is a file that stores the configurations of the infrastructure that has been created. 
 
@@ -8,7 +8,7 @@ It records the current state of your infrastructure resources (e.g., resource ID
 
 It's critical for planning, change detection, and tracking drift between desired and actual resources.
 
-🔹 How It Works (Behind the Scenes)
+# ⚙️ How It Works (Behind the Scenes)
 
 During terraform init:
 Terraform connects to the configured Azure Blob container.
@@ -31,46 +31,60 @@ A temporary lock file is created to prevent parallel modifications.
 
 Creates an Azure Resource Group, Storage Account, and Blob Container for storing Terraform state remotely.
 
-# 🔧 Configuration
+🔧 1. set the configuration variable
 
 ```
 RESOURCE_GROUP_NAME="tfstate-day04"
-STORAGE_ACCOUNT_NAME="day04$RANDOM"   # Random suffix to avoid name conflicts
+STORAGE_ACCOUNT_NAME="day04$RANDOM"
 CONTAINER_NAME="tfstate"
 LOCATION="eastus"
+```
+RESOURCE_GROUP_NAME: Logical container for Azure resources.
 
-echo "📁 Creating Resource Group: $RESOURCE_GROUP_NAME..."
-az group create \
-  --name "$RESOURCE_GROUP_NAME" \
-  --location "$LOCATION"
+STORAGE_ACCOUNT_NAME: Must be globally unique. $RANDOM adds a random number to avoid collisions.
 
-echo "💾 Creating Storage Account: $STORAGE_ACCOUNT_NAME..."
+CONTAINER_NAME: The blob container where the state file will be stored.
+
+LOCATION: Region where the resources will be created (e.g., eastus)
+
+📁 2. Create the Resource Group
+```
+az group create --name "$RESOURCE_GROUP_NAME" --location "$LOCATION"
+```
+
+💾 3. Create the Storage Account
+
+```
 az storage account create \
   --resource-group "$RESOURCE_GROUP_NAME" \
   --name "$STORAGE_ACCOUNT_NAME" \
   --sku Standard_LRS \
   --encryption-services blob
+```
 
-echo "📦 Creating Blob Container: $CONTAINER_NAME..."
+📦 4. Create the Blob Container
+
+```
 az storage container create \
   --name "$CONTAINER_NAME" \
   --account-name "$STORAGE_ACCOUNT_NAME"
-
-echo " Terraform backend storage setup completed!"
 ```
 
-example for connecting to Azure backend:
+🧩 5. Terraform Backend Block Example
 
 ```
- backend "azurerm" {
-    resource_group_name  = "tfstate-day04"  # Can be passed via `-backend-config=`"resource_group_name=<resource group name>"` in the `init` command.
-    storage_account_name = "day0417691"                      # Can be passed via `-backend-config=`"storage_account_name=<storage account name>"` in the `init` command.
-    container_name       = "tfstate"                       # Can be passed via `-backend-config=`"container_name=<container name>"` in the `init` command.
-    key                  = "dev.terraform.tfstate"        # Can be passed via `-backend-config=`"key=<blob key name>"` in the `init` command.
+ terraform {
+  backend "azurerm" {
+    resource_group_name   = "tfstate-day04"
+    storage_account_name  = "<output-from-script>"
+    container_name        = "tfstate"
+    key                   = "prod.terraform.tfstate"
   }
+}
+
   ```
 
-   Why Use Remote Backend in Azure? Using an Azure Storage Account as a backend offers several advantages:
+  # Why Use Remote Backend in Azure? Using an Azure Storage Account as a backend offers several advantages:
 
 🧠 Centralized State The state file is accessible to all team members working on the same infrastructure. 
 
