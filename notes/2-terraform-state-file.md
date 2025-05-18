@@ -26,11 +26,10 @@ Applies the changes and updates the remote state file in Azure.
 A temporary lock file is created to prevent parallel modifications.
 
 
-# ----------------------------------------
+
 # 🌐 Terraform Remote Backend Setup Script
-# ----------------------------------------
-# Creates an Azure Resource Group, Storage Account, and Blob Container
-# for storing Terraform state remotely.
+
+Creates an Azure Resource Group, Storage Account, and Blob Container for storing Terraform state remotely.
 
 # 🔧 Configuration
 
