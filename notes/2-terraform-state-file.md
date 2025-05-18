@@ -1,4 +1,4 @@
-# ✅Terraform state file
+## ✅Terraform state file
 
 A Terraform state file ( .tfstate extension) is a file that stores the configurations of the infrastructure that has been created. 
 
@@ -8,7 +8,7 @@ It records the current state of your infrastructure resources (e.g., resource ID
 
 It's critical for planning, change detection, and tracking drift between desired and actual resources.
 
-# ⚙️ How It Works (Behind the Scenes)
+## ⚙️ How It Works (Behind the Scenes)
 
 During terraform init:
 Terraform connects to the configured Azure Blob container.
@@ -27,7 +27,7 @@ A temporary lock file is created to prevent parallel modifications.
 
 
 
-# 🌐 Terraform Remote Backend Setup Script
+## 🌐 Terraform Remote Backend Setup Script
 
 Creates an Azure Resource Group, Storage Account, and Blob Container for storing Terraform state remotely.
 
@@ -84,7 +84,7 @@ az storage container create \
 
   ```
 
-  # Why Use Remote Backend in Azure? Using an Azure Storage Account as a backend offers several advantages:
+## Why Use Remote Backend in Azure? Using an Azure Storage Account as a backend offers several advantages:
 
 🧠 Centralized State The state file is accessible to all team members working on the same infrastructure. 
 
