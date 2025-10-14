@@ -1,3 +1,4 @@
+```
 terraform {
   required_providers {
     azurerm = {
@@ -86,3 +87,5 @@ resource "azurerm_linux_virtual_machine" "vm" {
     version   = "latest"
   }
 }
+
+```
